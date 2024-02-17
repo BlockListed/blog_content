@@ -14,7 +14,7 @@ than `String` in most cases, but that's not what you're here for.
 
 ## How does this even work?
 You might be wandering, "Why does this even work? I thought `str` always needs to be behind
-`&` or `&mut`, so why does `Arc<str>` still work? Look at this error message."
+`&` or `&mut`, so why does `Arc<str>` still work? Look at this error message!"
 
 Attempting to compile:
 ```rust
@@ -53,8 +53,8 @@ describes using the following words:
 
 But believe it or not, but `str` isn't actually special, there are other DSTs such as `[T]` and `dyn Trait`.
 The information stored in the wide pointer is either the length in the case of `[T]` and `str` or
-the trait [VTable][13] in the case `dyn Trait`. But you can create your own DSTs as well, by having the last field of your struct be a DST.
-Which is exactly what `Arc<T>` does, it's actually represented like this (omitting some irrelevant information):
+the trait [VTable][13] in the case `dyn Trait`. But you can create your own DSTs as well, by having the last field of your struct be a DST,
+which is exactly what `Arc<T>` does. It's actually represented like this (omitting some irrelevant information):
 ```rust
 pub struct Arc<
     T: ?Sized,
@@ -92,7 +92,7 @@ then `memcopy`ing the data over.
 
 ## Expectations
 You would expect a single increment to always be faster than a call
-to `malloc` and then `memcopy`, since, that's supposedly a complex
+to `malloc` and then `memcopy`, since that's supposedly a complex
 call which should take much longer than what amounts to a single
 instruction (in the case of x86 its `LOCK INC`).
 
@@ -186,10 +186,10 @@ locks! For more information read Chapter 9.1 "Locked Atomic Operations"
 `String` by contrast, calls `Jemalloc`s `malloc` implementation, which uses **thread-local** memory 
 arenas to get around this.
 
-What's still unexplained is why `String` gets *slower* when we *don't* drop
+What's still unexplained is why `String` gets *slower*, when we *don't* drop
 the `String` after each use. We would expect the call to `free` to take longer
 than just leaving it there. This is simply explained by how `Jemalloc` uses
-memory. As you might already know allocating memory from the kernel on Linux
+memory. As you might already know, allocating memory from the kernel on Linux
 happens using the `mmap` syscall, which takes time. Therefore the allocator
 attempts to call `mmap` as little as possible, by putting multiple allocations
 into a single `mmap`ed "bucket". Therefore, if we constantly `malloc` then
