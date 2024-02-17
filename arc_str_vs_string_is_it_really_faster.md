@@ -99,7 +99,7 @@ instruction (in the case of x86 its `LOCK INC`).
 ## Methodology
 I created a small benchmark program to test out my hypothesis.
 If you want to check my answers for yourself, you can find it [on my github][3].
-Since we're benchmarking performance here I assumed that you're going
+Since we're benchmarking performance here, I assumed that you're going
 to use `Jemalloc`, if you're trying to have the best possible performance.
 
 Its pretty simple, the basic benchmark function looks like this:
